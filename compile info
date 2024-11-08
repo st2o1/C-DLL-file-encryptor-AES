@@ -1,0 +1,45 @@
+The main thing (DLL) :
+
+gnu/linux : gcc -shared -fPIC -o filecrypt.dll encryptor.c -lssl -lcrypto
+> gcc -fPIC -shared -o filecrypt.so encryptor.c -lssl -lcrypto
+this compiles statically
+
+osx : gcc -shared -o filecrypt.dll encryptor.c -lssl -lcrypto
+
+	If OpenSSL is installed via Homebrew, you need to specify its paths like this:
+gcc -shared -o filecrypt.dll encryptor.c -I/usr/local/opt/openssl/in
+
+windows : gcc -shared -o filecrypt.dll encryptor.c -lssl -lcrypto
+
+	Ensure OpenSSL is installed in a location MinGW can find, or add the OpenSSL include and library paths like this:
+gcc -shared -o filecrypt.dll encryptor.c -IC:\OpenSSL-Win64\include -LC:
+
+Shared Library Naming Conventions(*just a reminder for myself) :
+	Windows: .dll
+	macOS: .dylib 
+	Linux: .so
+
+install openssl if not installed :
+gnu/linux :
+	sudo apt-get update
+	sudo apt-get install libssl-dev
+
+osx : 
+	brew install openssl
+
+for windows install the openssl from this website :
+https://slproweb.com/products/Win32OpenSSL.html
+
+
+compile the executable :
+
+windows : g++ -o EncryptorApp.exe encryptr.cpp filecrypt.dll -lssl -lcrypto
+
+osx : g++ -o EncryptorApp encryptr.cpp ./filecrypt.dll -lssl -lcrypto
+
+gnu/linux : g++ -o EncryptorApp encryptr.cpp ./filecrypt.dll -lssl -lcrypto
+
+compile the c# :
+    dotnet build --configuration Release
+
+> I personally use "dotnet publish -c Release -r linux-x64 --self-contained true"
